@@ -1,7 +1,6 @@
-// Require the Bolt package (github.com/slackapi/bolt)
-const { app } = require('./lib/slackAuth');
+const { app } = require('./lib/slack/slackAuth');
 const { homeView } = require('./lib/mockUI/homeView');
-const { publishHomeView, publishModalView } = require('./lib/slackActions');
+const { publishHomeView, publishModalView } = require('./lib/slack/slackActions');
 const { sfLogin } = require('./lib/salesforce/sfAuth');
 const { sfQuery } = require('./lib/salesforce/sfActions');
 const { workoutModal } = require('./lib/mockUI/workoutButton');
@@ -17,9 +16,6 @@ app.event('app_home_opened', async ({ event, client, context }) => {
         console.error(error);
     }
 });
-
-
-
 
 app.action({ action_id: "actionId-2" }, async ({ ack, client, body }) => {
     ack();
