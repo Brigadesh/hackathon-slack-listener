@@ -59,7 +59,7 @@ app.action({ action_id: "actionId-0" }, async ({ ack, payload, client, body }) =
     appdebug(`Payload - ${JSON.stringify(payload)}`);
     appdebug(`client - ${JSON.stringify(client)}`);
     appdebug(`body - ${JSON.stringify(body)}`);
-    setStatus(client)
+    setStatus(client, body)
         .then(result => appdebug(` result -> ${JSON.stringify(result)}`))
         .catch(err => appdebug(err));
 });
