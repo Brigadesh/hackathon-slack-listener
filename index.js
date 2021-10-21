@@ -56,14 +56,17 @@ app.action({ action_id: "actionId-4" }, async ({ ack, client, body }) => {
 
 app.action({ action_id: "actionId-0" }, async ({ ack, payload, client, body }) => {
     ack();
-    appdebug(`Payload - ${JSON.stringify(payload)}`);
-    appdebug(`client - ${JSON.stringify(client)}`);
-    appdebug(`body - ${JSON.stringify(body)}`);
-    setStatus(client, body)
+    setStatus(client, body, config.get('lunchBreak'))
         .then(result => appdebug(` result -> ${JSON.stringify(result)}`))
         .catch(err => appdebug(err));
 });
 
+app.action({ action_id: "actionId-1" }, async ({ ack, payload, client, body }) => {
+    ack();
+    setStatus(client, body, config.get('pauseBreak'))
+        .then(result => appdebug(` result -> ${JSON.stringify(result)}`))
+        .catch(err => appdebug(err));
+});
 
 (async () => {
     // Start your app
