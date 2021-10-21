@@ -1,22 +1,15 @@
 // Require the Bolt package (github.com/slackapi/bolt)
 const { app } = require('./lib/slackAuth');
+const { homeView } = require('./mockUI/homeView');
 
 app.event('app_home_opened', async ({ event, client, context }) => {
     try {
         /* view.publish is the method that your app uses to push a view to the Home tab */
         const result = await client.views.publish({
-
             /* the user that opened your app's app home */
             user_id: event.user,
-
-
             /* the view object that appears in the app home*/
-            view: {
-                type: 'home',
-                callback_id: 'home_view',
-
-                "blocks": []
-            }
+            view: homeView
         });
     }
     catch (error) {
