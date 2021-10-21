@@ -2,7 +2,7 @@ const config = require('config');
 const appdebug = require('debug')('appdebug');
 const { app } = require('./lib/slack/slackAuth');
 const { homeView } = require('./lib/mockUI/homeView');
-const { publishHomeView, publishModalView } = require('./lib/slack/slackActions');
+const { publishHomeView, publishModalView, setStatus } = require('./lib/slack/slackActions');
 const { sfLogin } = require('./lib/salesforce/sfAuth');
 const { sfQuery } = require('./lib/salesforce/sfActions');
 const { workoutModal } = require('./lib/mockUI/workoutButton');
@@ -56,15 +56,17 @@ app.action({ action_id: "actionId-4" }, async ({ ack, client, body }) => {
 
 app.action({ action_id: "actionId-0" }, async ({ ack, payload, client, body }) => {
     ack();
-    appdebug(`payload - ${JSON.stringify(payload)}`);
-    appdebug(`payload - ${JSON.stringify(client)}`);
-    appdebug(`payload - ${JSON.stringify(body)}`);
+    appdebug(`Payload - ${payload}`);
+    appdebug(`client - ${client}`);
+    appdebug(`body - ${body}`);
+    setStatus(client)
+        .then(result => appdebug(` result -> ${JSON.stringify(result)}`))
+        .catch(err => appdebug(error));
 });
 
 
 (async () => {
     // Start your app
     await app.start(process.env.PORT || 3000);
-
     appdebug(' Bolt app is running!');
 })();
