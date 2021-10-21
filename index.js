@@ -47,7 +47,7 @@ app.action({ action_id: "actionId-3" }, async ({ ack, client, body }) => {
 
 app.action({ action_id: "actionId-4" }, async ({ ack, client, body }) => {
     ack();
-    let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Summary__c!= null and bwell__Article_URL__c!=NULL and bwell__Title__c!=NULL and bwell__Image_URL__c!=NULL limit 1 offset ${Math.floor(Math.random() * 36)}`;
+    let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Summary__c!= null and bwell__Article_URL__c!=NULL and bwell__Title__c!=NULL and bwell__Image_URL__c!=NULL limit 1`;
     sfLoginQueryPublish(bwell, queryString, client, body)
         .then(result => console.log(result))
         .catch(err => console.log(err));
