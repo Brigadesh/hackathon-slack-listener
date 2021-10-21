@@ -1,3 +1,5 @@
+const config = require('config');
+const appdebug = require('debug')('appdebug');
 const { app } = require('./lib/slack/slackAuth');
 const { homeView } = require('./lib/mockUI/homeView');
 const { publishHomeView, publishModalView } = require('./lib/slack/slackActions');
@@ -6,7 +8,6 @@ const { sfQuery } = require('./lib/salesforce/sfActions');
 const { workoutModal } = require('./lib/mockUI/workoutButton');
 const { meditateModal } = require('./lib/mockUI/meditate');
 const { bwellModal } = require('./lib/mockUI/bwell');
-const config = require('config');
 
 let sfLoginQueryPublish = async (modal, queryString, client, body) => {
     try {
@@ -31,26 +32,33 @@ app.event('app_home_opened', async ({ event, client, context }) => {
 
 app.action({ action_id: "actionId-2" }, async ({ ack, client, body }) => {
     ack();
-    let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Journey_Name__c='Revive' and bwell__Article_URL__c!=NULL limit 1`;
+    let queryString = `${config.get('sfFieldsToQuery')} ${config.get('sfObjectToQuery')} ${config.get('workoutWhereClause')}`;
     sfLoginQueryPublish(workoutModal, queryString, client, body)
-        .then(result => console.log(result))
-        .catch(err => console.log(err));
+        .then(result => appdebug(result))
+        .catch(err => appdebug(err));
 });
 
 app.action({ action_id: "actionId-3" }, async ({ ack, client, body }) => {
     ack();
-    let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Journey_Name__c='Thrive' and bwell__Article_URL__c!=NULL limit 1`;
+    let queryString = `${config.get('sfFieldsToQuery')} ${config.get('sfObjectToQuery')} ${config.get('meditateWhereClause')}`;
     sfLoginQueryPublish(meditateModal, queryString, client, body)
-        .then(result => console.log(result))
-        .catch(err => console.log(err));
+        .then(result => appdebug(result))
+        .catch(err => appdebug(err));
 });
 
 app.action({ action_id: "actionId-4" }, async ({ ack, client, body }) => {
     ack();
-    let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Summary__c!= null and bwell__Article_URL__c!=NULL limit 1 offset ${Math.floor(Math.random() * 36)}`;
+    let queryString = `${config.get('sfFieldsToQuery')} ${config.get('sfObjectToQuery')} ${config.get('bwellWhereClause')} ${Math.floor(Math.random() * 36)}`;
     sfLoginQueryPublish(bwellModal, queryString, client, body)
-        .then(result => console.log(result))
-        .catch(err => console.log(err));
+        .then(result => appdebug(result))
+        .catch(err => appdebug(err));
+});
+
+app.action({ action_id: "actionId-0" }, async ({ ack, payload, client, body }) => {
+    ack();
+    appdebug(`payload - ${JOSN.stringify(payload)}`);
+    appdebug(`payload - ${JOSN.stringify(client)}`);
+    appdebug(`payload - ${JOSN.stringify(body)}`);
 });
 
 
@@ -58,5 +66,5 @@ app.action({ action_id: "actionId-4" }, async ({ ack, client, body }) => {
     // Start your app
     await app.start(process.env.PORT || 3000);
 
-    console.log(' Bolt app is running!');
+    appdebug(' Bolt app is running!');
 })();
