@@ -56,12 +56,12 @@ app.action({ action_id: "actionId-4" }, async ({ ack, client, body }) => {
 
 app.action({ action_id: "actionId-0" }, async ({ ack, payload, client, body }) => {
     ack();
-    appdebug(`Payload - ${payload}`);
-    appdebug(`client - ${client}`);
-    appdebug(`body - ${body}`);
+    appdebug(`Payload - ${JSON.stringify(payload)}`);
+    appdebug(`client - ${JSON.stringify(client)}`);
+    appdebug(`body - ${JSON.stringify(body)}`);
     setStatus(client)
         .then(result => appdebug(` result -> ${JSON.stringify(result)}`))
-        .catch(err => appdebug(error));
+        .catch(err => appdebug(err));
 });
 
 
