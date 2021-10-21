@@ -1,11 +1,16 @@
 // Require the Bolt package (github.com/slackapi/bolt)
 const { app } = require('./lib/slackAuth');
-const { homeView } = require('./mockUI/homeView');
-const { publishHomeView } = require('./lib/slackActions')
+const { homeView } = require('./lib/mockUI/homeView');
+const { publishHomeView, publishModalView } = require('./lib/slackActions');
+const { sfLogin } = require('./lib/salesforce/sfAuth');
+const { sfQuery } = require('./lib/salesforce/sfActions');
+const { workoutModal } = require('./lib/mockUI/workoutButton');
+
+
 
 app.event('app_home_opened', async ({ event, client, context }) => {
     try {
-        const result = await publishHomeView(client, homeView);
+        let result = await publishHomeView(client, homeView);
     }
     catch (error) {
         console.error(error);
@@ -15,35 +20,18 @@ app.event('app_home_opened', async ({ event, client, context }) => {
 
 
 
-/*app.action('dupekey_to_score', async ({ ack, body, context }) => {
-    // Acknowledge the button request
+app.action({ action_id: "actionId-2" }, async ({ ack, client, body }) => {
     ack();
-
     try {
-        // Update the message
-        const result = await app.client.chat.postMessage({
-            token: context.botToken,
-            // ts of message to update
-            //ts: body.message.ts,
-            // Channel of message
-            channel: "C02J7DM5ZMY",
-            blocks: [
-              {
-                type: 'section',
-                text: {
-                  type: 'mrkdwn',
-                  text: '*The button was clicked!*'
-                }
-              }
-            ],
-            text: 'DupeKeytobeScored was clicked'
-        });
-        console.log(result);
+        let sfConnection = await sfLogin();
+        let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Journey_Name__c='Revive' and bwell__Article_URL__c!=NULL limit 1`;
+        let stories = await sfQuery(sfConnection, queryString);
+        let result = await publishModalView(client, body, stories, workoutModal);
     }
     catch (error) {
-        console.error(error);
+        console.error(error.data.response_metadata);
     }
-});*/
+});
 
 
 
