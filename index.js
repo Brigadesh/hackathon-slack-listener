@@ -56,9 +56,9 @@ app.action({ action_id: "actionId-4" }, async ({ ack, client, body }) => {
 
 app.action({ action_id: "actionId-0" }, async ({ ack, payload, client, body }) => {
     ack();
-    appdebug(`payload - ${JOSN.stringify(payload)}`);
-    appdebug(`payload - ${JOSN.stringify(client)}`);
-    appdebug(`payload - ${JOSN.stringify(body)}`);
+    appdebug(`payload - ${JSON.stringify(payload)}`);
+    appdebug(`payload - ${JSON.stringify(client)}`);
+    appdebug(`payload - ${JSON.stringify(body)}`);
 });
 
 
