@@ -5,7 +5,7 @@ const { sfLogin } = require('./lib/salesforce/sfAuth');
 const { sfQuery } = require('./lib/salesforce/sfActions');
 const { workoutModal } = require('./lib/mockUI/workoutButton');
 const { meditateModal } = require('./lib/mockUI/meditate');
-const { bwell } = require('./lib/mockUI/bwell');
+const { bwellModal } = require('./lib/mockUI/bwell');
 const config = require('config');
 
 let sfLoginQueryPublish = async (modal, queryString, client, body) => {
@@ -47,8 +47,8 @@ app.action({ action_id: "actionId-3" }, async ({ ack, client, body }) => {
 
 app.action({ action_id: "actionId-4" }, async ({ ack, client, body }) => {
     ack();
-    let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Summary__c!= null and bwell__Article_URL__c!=NULL and bwell__Title__c!=NULL and bwell__Image_URL__c!=NULL limit 1`;
-    sfLoginQueryPublish(bwell, queryString, client, body)
+    let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Summary__c!= null and bwell__Article_URL__c!=NULL limit 1 offset ${Math.floor(Math.random() * 36)}`;
+    sfLoginQueryPublish(bwellModal, queryString, client, body)
         .then(result => console.log(result))
         .catch(err => console.log(err));
 });
