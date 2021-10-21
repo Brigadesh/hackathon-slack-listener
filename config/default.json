@@ -6,10 +6,13 @@
   "summaryOfDayTag": "summaryOfDay",
   "salesforceURL": "https://test.salesforce.com",
   "salesforceUsername": "bchandrasekar@peopleforce.com.fy23pfhack",
-  "sfFieldsToQuery": "id , name, bwell__WpId__c, bwell__Model__c ,bwell__Image_URL__c,bwell__Title__c,bwell__Summary__c,bwell__Categories__c, bwell__Journey_Name__c, bwell__Article_URL__c, bwell__Country__c",
-  "sfObjectToQuery": "bwell__Story__c",
+  "sfFieldsToQuery": "Select id , name, bwell__WpId__c, bwell__Model__c ,bwell__Image_URL__c,bwell__Title__c,bwell__Summary__c,bwell__Categories__c, bwell__Journey_Name__c, bwell__Article_URL__c, bwell__Country__c",
+  "sfObjectToQuery": "from bwell__Story__c",
   "summaryMergeField": "{summaryMergeField}",
   "articleURLMergeField": "{articleURLMergeField}",
   "titleMergeField": "{titleMergeField}",
-  "imageURLMergeField": "{imageURLMergeField}"
+  "imageURLMergeField": "{imageURLMergeField}",
+  "meditateWhereClause": "where bwell__Journey_Name__c='Thrive' and bwell__Article_URL__c!=NULL limit 1",
+  "workoutWhereClause": "where bwell__Journey_Name__c='Revive' and bwell__Article_URL__c!=NULL limit 1",
+  "bwellWhereClause": "where bwell__Summary__c!= null and bwell__Article_URL__c!=NULL limit 1 offset"
 }
