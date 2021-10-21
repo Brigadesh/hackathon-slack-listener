@@ -1,7 +1,8 @@
 {
     "slackBotCredentials": {
         "signSecret": "ROUTER_SLACK_SIGNING_SECRET",
-        "botToken": "ROUTER_SLACK_BOT_TOKEN"
+        "botToken": "ROUTER_SLACK_BOT_TOKEN",
+        "userToken": "ROUTER_SLACK_USER_TOKEN"
     },
     "salesforceCredentials": {
         "salesforcePassword": "BWELL_JSFORCE_PASSWORD"
