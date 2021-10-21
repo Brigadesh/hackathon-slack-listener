@@ -5,12 +5,13 @@ const { publishHomeView, publishModalView } = require('./lib/slackActions');
 const { sfLogin } = require('./lib/salesforce/sfAuth');
 const { sfQuery } = require('./lib/salesforce/sfActions');
 const { workoutModal } = require('./lib/mockUI/workoutButton');
+const config = require('config');
 
 
 
 app.event('app_home_opened', async ({ event, client, context }) => {
     try {
-        let result = await publishHomeView(client, homeView);
+        let result = await publishHomeView(event, client, homeView);
     }
     catch (error) {
         console.error(error);
@@ -29,7 +30,7 @@ app.action({ action_id: "actionId-2" }, async ({ ack, client, body }) => {
         let result = await publishModalView(client, body, stories, workoutModal);
     }
     catch (error) {
-        console.error(error.data.response_metadata);
+        console.error(error);
     }
 });
 
