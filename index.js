@@ -8,7 +8,7 @@ const { meditateModal } = require('./lib/mockUI/meditate');
 const { bwell } = require('./lib/mockUI/bwell');
 const config = require('config');
 
-let sfLoginQueryPublish = async (modal, queryString) => {
+let sfLoginQueryPublish = async (modal, queryString, client, body) => {
     try {
         let sfConnection = await sfLogin();
         let stories = await sfQuery(sfConnection, queryString);
@@ -32,7 +32,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
 app.action({ action_id: "actionId-2" }, async ({ ack, client, body }) => {
     ack();
     let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Journey_Name__c='Revive' and bwell__Article_URL__c!=NULL limit 1 offset ${Math.floor(Math.random() * 36)}`;
-    sfLoginQueryPublish(workoutModal, queryString)
+    sfLoginQueryPublish(workoutModal, queryString, client, body)
         .then(result => console.log(result))
         .catch(err => console.log(err));
 });
@@ -40,7 +40,7 @@ app.action({ action_id: "actionId-2" }, async ({ ack, client, body }) => {
 app.action({ action_id: "actionId-3" }, async ({ ack, client, body }) => {
     ack();
     let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Journey_Name__c='Thrive' and bwell__Article_URL__c!=NULL limit 1 offset ${Math.floor(Math.random() * 36)}`;
-    sfLoginQueryPublish(meditateModal, queryString)
+    sfLoginQueryPublish(meditateModal, queryString, client, body)
         .then(result => console.log(result))
         .catch(err => console.log(err));
 });
@@ -48,7 +48,7 @@ app.action({ action_id: "actionId-3" }, async ({ ack, client, body }) => {
 app.action({ action_id: "actionId-4" }, async ({ ack, client, body }) => {
     ack();
     let queryString = `Select ${config.get('sfFieldsToQuery')} from ${config.get('sfObjectToQuery')} where bwell__Summary__c!= null and bwell__Article_URL__c!=NULL limit 1 offset ${Math.floor(Math.random() * 36)}`;
-    sfLoginQueryPublish(bwell, queryString)
+    sfLoginQueryPublish(bwell, queryString, client, body)
         .then(result => console.log(result))
         .catch(err => console.log(err));
 });
