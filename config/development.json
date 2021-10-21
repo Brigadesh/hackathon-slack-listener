@@ -14,5 +14,8 @@
   "imageURLMergeField": "{imageURLMergeField}",
   "meditateWhereClause": "where bwell__Journey_Name__c='Thrive' and bwell__Article_URL__c!=NULL limit 1",
   "workoutWhereClause": "where bwell__Journey_Name__c='Revive' and bwell__Article_URL__c!=NULL limit 1",
-  "bwellWhereClause": "where bwell__Summary__c!= null and bwell__Article_URL__c!=NULL limit 1 offset"
+  "bwellWhereClause": "where bwell__Summary__c!= null and bwell__Article_URL__c!=NULL limit 1 offset",
+  "lunchBreakinSeconds": 900,
+  "lunchBreakStatusText": "Having Lunch!",
+  "lunchStatusEmoji": ":avocado:"
 }
